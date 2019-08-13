@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Link Detail{% endblock %}
+
+{% block content %}
+<h3>Link detail</h3>
+<p> Link {{link.short_url_path}} by user {{link.user}}</p>
+Stats:
+{{ stats }}
+{% endblock %}
