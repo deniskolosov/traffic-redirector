@@ -3,8 +3,8 @@
 
 Для запуска:
 ```
-export TDS_HOSTNAME=<ваше_имя_хоста в формате хост:порт>
-source ./venv/bin/activate
+export TDS_HOSTNAME=<ваше_имя_хоста>
+pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
