@@ -4,9 +4,10 @@
 
 {% block content %}
 <h2>Login</h2>
-<form method="post">
+<form method="post" novalidate>
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Login</button>
 </form>
+<p>Don't have a login? <a href="{% url 'signup' %}">Sign up</a>.</p>
 {% endblock %}

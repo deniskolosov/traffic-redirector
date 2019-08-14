@@ -3,19 +3,21 @@
 {% block title %}Link Detail{% endblock %}
 
 {% block content %}
-<h3>Link detail</h3>
-<p> Link {{link.short_url_path}} by user {{link.user}}</p>
-Stats:
-{{ stats }}
+<h3>Link details: </h3>
+
+<p> Link {{link.short_url_path}} by {{username}}</p>
+<h4>Total clicks:</h4> {{stats.total_clicks}}
+<h4>Unique clicks:</h4> {{stats.unique_clicks}}
 
 
+<h3>Clicks in past 24 hours:</h3>
 <canvas id="myChart" width="300" height="50"></canvas>
 <script>
     var ctx = document.getElementById('myChart');
     var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '21', '22', '23'],
+        labels: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '21', '22', '23', '24'],
         datasets: [{
             label: 'Clicks in past 24 hours',
             data: {{stats.chart_data}},

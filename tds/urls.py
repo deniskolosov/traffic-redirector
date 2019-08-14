@@ -14,19 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from url_manager.views import LinkCreateView, HomeView, TemplateView, LinksLandingPagesCreateView
+from django.urls import path, re_path, include
+from url_manager.views import signup, LinkCreateView, LinkDetailView, HomeView, TemplateView, LinksLandingPagesCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    re_path(r'^signup/$', signup, name='signup'),
     path('', HomeView.as_view(template_name='home.html'), name='home'),
     path('landing1/', TemplateView.as_view(template_name='landing1.html'), name='landing_1'),
     path('landing2/', TemplateView.as_view(template_name='landing2.html'), name='landing_2'),
     path('landing3/', TemplateView.as_view(template_name='landing3.html'), name='landing_3'),
     path('create-link/', LinkCreateView.as_view(), name='create-link'),
     path('create-links-landing-pages/', LinksLandingPagesCreateView.as_view(), name='create-links-landing-pages'),
-    path('links/', include('url_manager.urls')),
+    path('links/<slug:short_url_path>/', LinkDetailView.as_view(), name='link-detail'),
     path('landing-pages/', include('url_manager.urls')),
 
 ]

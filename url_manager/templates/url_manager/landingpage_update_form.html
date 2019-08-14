@@ -3,8 +3,11 @@
 {% block title %}LinksLanding pages update{% endblock %}
 
 {% block content %}
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update">
+ <form method="post">
+  <div class="form-group">
+    {% csrf_token %}
+   {{ form.as_p }}
+  </div>
+  <button type="submit" class="btn btn-primary">Update</button>
 </form>
 {% endblock %}

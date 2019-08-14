@@ -3,12 +3,27 @@ import random
 from .models import LandingPage, LinksLandingPages, Link, Visit
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django import forms
-from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login as auth_login
+from django.shortcuts import render, redirect
 from .models import Profile, Link, LandingPage
 
 
-class HomeView(TemplateView):
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -25,7 +40,7 @@ class HomeView(TemplateView):
         return context
 
 
-class LinkDetailView(DetailView):
+class LinkDetailView(LoginRequiredMixin, DetailView):
     slug_field = 'short_url_path'
     slug_url_kwarg = 'short_url_path'
     template_name = 'link.html'
@@ -39,10 +54,16 @@ class LinkDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(LinkDetailView, self).get_context_data(**kwargs)
         context['stats'] = self.object.get_link_stats()
+        context.update(
+            {
+                'stats': self.object.get_link_stats(),
+                'username': self.object.user.user.username
+             }
+        )
         return context
 
 
-class LinkCreateView(CreateView):
+class LinkCreateView(LoginRequiredMixin, CreateView):
     model = Link
     template_name = 'url_manager/link-create.html'
     fields = ['short_url_path']
@@ -65,13 +86,32 @@ class LinkCreateView(CreateView):
         return super(LinkCreateView, self).form_valid(form)
 
 
-class LinksLandingPagesCreateView(CreateView):
+class LinksLandingPagesForm(forms.ModelForm):
+    class Meta:
+        model = LinksLandingPages
+        fields = ['link', 'landing_page']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(LinksLandingPagesForm, self).__init__(*args, **kwargs)
+        self.fields['link'].queryset = Link.objects.filter(user=user.profile)
+        self.fields['landing_page'].queryset = LandingPage.objects.all()
+
+
+class LinksLandingPagesCreateView(LoginRequiredMixin, CreateView):
     model = LinksLandingPages
     template_name = 'url_manager/link-landing-page-create.html'
-    fields = ['link', 'landing_page']
+    form_class = LinksLandingPagesForm
+
+    def get_form_kwargs(self):
+        kwargs = super(LinksLandingPagesCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
-class LandingPageUpdateView(UpdateView):
+
+class LandingPageUpdateView(LoginRequiredMixin, UpdateView):
     model = LandingPage
     fields = ['weight', 'allowed_countries']
     template_name_suffix = '_update_form'
+    success_url = reverse_lazy('home')
