@@ -3,7 +3,7 @@
 
 Для запуска:
 ```
-export TDS_HOSTNAME=<ваше_имя_хоста>
+export TDS_HOSTNAME=<ваше_имя_хоста в формате хост:порт>
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
