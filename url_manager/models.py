@@ -8,7 +8,6 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.urls import reverse
 
-# TODO: select hostname from settings
 HOSTNAME = settings.TDS_HOSTNAME
 URL_CHOICES = [
     (HOSTNAME + 'landing1/', HOSTNAME + 'landing1/'),

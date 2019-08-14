@@ -1,14 +1,13 @@
 import string
 import random
 from .models import LinksLandingPages
-from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
+from django.views.generic import TemplateView, DetailView, UpdateView, CreateView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.shortcuts import render, redirect
-from django.conf import settings
 from .models import Profile, Link, LandingPage
 
 
@@ -87,6 +86,13 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
         return super(LinkCreateView, self).form_valid(form)
 
 
+class LandingPageCreateView(LoginRequiredMixin, CreateView):
+    model = LandingPage
+    template_name = 'url_manager/landing-page-create.html'
+    fields = ['weight', 'allowed_countries', 'url', 'name']
+    success_url = reverse_lazy('home')
+
+
 class LinksLandingPagesForm(forms.ModelForm):
     class Meta:
         model = LinksLandingPages
@@ -115,3 +121,10 @@ class LandingPageUpdateView(LoginRequiredMixin, UpdateView):
     fields = ['weight', 'allowed_countries']
     template_name_suffix = '_update_form'
     success_url = reverse_lazy('home')
+
+
+class LandingPageListView(ListView):
+    model = LandingPage
+    template_name = 'url_manager/landing-pages-list.html'
+    context_object_name = 'landing_pages'
+

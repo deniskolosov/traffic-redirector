@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
-from url_manager.views import signup, LinkCreateView, LinkDetailView, HomeView, TemplateView, LinksLandingPagesCreateView
+from url_manager.views import signup, LinkCreateView, LinkDetailView, HomeView, TemplateView,\
+    LandingPageCreateView, LinksLandingPagesCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('landing3/', TemplateView.as_view(template_name='landing3.html'), name='landing_3'),
     path('create-link/', LinkCreateView.as_view(), name='create-link'),
     path('create-links-landing-pages/', LinksLandingPagesCreateView.as_view(), name='create-links-landing-pages'),
+    path('create-landing-page/', LandingPageCreateView.as_view(), name='create-landing-page'),
     path('links/<slug:short_url_path>/', LinkDetailView.as_view(), name='link-detail'),
     path('landing-pages/', include('url_manager.urls')),
 

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Landing pages list{% endblock %}
+
+{% block content %}
+<a href="{% url 'home' %}"> <- Back home </a>
+
+<h3>Landing pages:</h3>
+<ul class="list-group col-sm-8">
+ {% for page in landing_pages %}
+    <li class="list-group-item"><a href="{% url 'landing-page-update' page.pk %}"> {{ page }}</a></li>
+ {% endfor %}
+</ul>
+{% endblock %}
