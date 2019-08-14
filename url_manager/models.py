@@ -11,9 +11,9 @@ from django.urls import reverse
 # TODO: select hostname from settings
 HOSTNAME = settings.TDS_HOSTNAME
 URL_CHOICES = [
-    (HOSTNAME + '/landing1/', HOSTNAME + '/landing1/'),
-    (HOSTNAME + '/landing2/', HOSTNAME + '/landing2/'),
-    (HOSTNAME + '/landing3/', HOSTNAME + '/landing3/'),
+    (HOSTNAME + 'landing1/', HOSTNAME + 'landing1/'),
+    (HOSTNAME + 'landing2/', HOSTNAME + 'landing2/'),
+    (HOSTNAME + 'landing3/', HOSTNAME + 'landing3/'),
 ]
 
 

@@ -2,6 +2,7 @@ import geoip2.database
 from collections import defaultdict
 from geoip2.errors import AddressNotFoundError
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from url_manager.models import Link, Visit, LinksLandingPages
 import random
 from django.core.exceptions import ObjectDoesNotExist
@@ -54,7 +55,6 @@ class LocationMiddleware:
         path = request.path.split('/')[1]
         path_link = None
         try:
-            path_link = Link.objects.get(short_url_path=path)
             if 'HTTP_X_FORWARDED_FOR' in request.META:
                 request.META['REMOTE_ADDR'] = request.META['HTTP_X_FORWARDED_FOR']
 
@@ -68,6 +68,8 @@ class LocationMiddleware:
                 'landing_page__url',
                 'landing_page__weight'
             )
+            if not landing_pages:
+                return HttpResponse("Your country is not allowed")
             weights_urls = defaultdict(list)
             for page in landing_pages:
                 weights_urls[page['landing_page__weight']].append(page['landing_page__url'])

@@ -8,6 +8,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.shortcuts import render, redirect
+from django.conf import settings
 from .models import Profile, Link, LandingPage
 
 
@@ -41,7 +42,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
 
 class LinkDetailView(LoginRequiredMixin, DetailView):
-    slug_field = 'short_url_path'
+    slug_field = 'short_url_path__iexact'
     slug_url_kwarg = 'short_url_path'
     template_name = 'link.html'
 
@@ -107,7 +108,6 @@ class LinksLandingPagesCreateView(LoginRequiredMixin, CreateView):
         kwargs = super(LinksLandingPagesCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
-
 
 
 class LandingPageUpdateView(LoginRequiredMixin, UpdateView):
