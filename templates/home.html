@@ -12,6 +12,7 @@
           <a class="nav-link" href="{% url 'create-link' %}">Create new short link</a>
           <a class="nav-link" href="{% url 'create-landing-page' %}">Create new landing page</a>
           <a class="nav-link" href="{% url 'landing-pages-list' %}">List of landing pages</a>
+          <a class="nav-link" href="{% url 'create-links-landing-pages' %}">Point links to landing pages</a>
         </li>
       </ul>
       <hr class="d-sm-none">
@@ -25,7 +26,7 @@
      {% for link, landing_pages in links_landing_pages.items %}
         <li class="list-group-item"><a href="{% url 'link-detail' link.slug %}">{{ link.short_url_path }}</a> points to
             {% for page in landing_pages %}
-                <a href="{% url 'landing-page-update' page.pk %}"> {{ page }}</a>
+                <a href="{% url 'landing-page-update' page.pk %}"> {{ page }}</a> {% if not forloop.last %} and {% endif %}
             {% endfor %}
         </li>
      {% endfor %}
