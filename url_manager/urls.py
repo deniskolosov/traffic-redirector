@@ -1,5 +1,4 @@
-# books/urls.py
-from django.urls import path, re_path, include
+from django.urls import re_path
 
 from . import views
 

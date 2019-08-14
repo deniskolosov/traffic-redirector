@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.conf import settings
 from django_countries.fields import CountryField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -8,7 +9,7 @@ from django.utils.text import slugify
 from django.urls import reverse
 
 # TODO: select hostname from settings
-HOSTNAME = 'http://127.0.0.1:8000'
+HOSTNAME = settings.TDS_HOSTNAME
 URL_CHOICES = [
     (HOSTNAME + '/landing1/', HOSTNAME + '/landing1/'),
     (HOSTNAME + '/landing2/', HOSTNAME + '/landing2/'),

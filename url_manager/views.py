@@ -1,6 +1,6 @@
 import string
 import random
-from .models import LandingPage, LinksLandingPages, Link, Visit
+from .models import LinksLandingPages
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin

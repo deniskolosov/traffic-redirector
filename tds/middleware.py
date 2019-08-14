@@ -2,23 +2,18 @@ import geoip2.database
 from collections import defaultdict
 from geoip2.errors import AddressNotFoundError
 from django.http import HttpResponseRedirect
-from url_manager.models import Link, Visit, LandingPage, LinksLandingPages
+from url_manager.models import Link, Visit, LinksLandingPages
 import random
 from django.core.exceptions import ObjectDoesNotExist
 
 
 def get_country_from_ip(ip_address):
-    # TODO: move initialisation to where the app starts
-    import os
     reader = geoip2.database.Reader('./tds/GeoLite2-Country.mmdb')
-    country_name = ''
     try:
         response = reader.country(ip_address)
         country_name = response.country.iso_code
     except AddressNotFoundError:
-        # country_name = 'Unknown'
-        # TODO: testing
-        country_name = 'GB'
+        country_name = 'Unknown'
 
     return country_name
 
