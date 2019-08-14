@@ -13,7 +13,7 @@ def get_country_from_ip(ip_address):
         response = reader.country(ip_address)
         country_name = response.country.iso_code
     except AddressNotFoundError:
-        country_name = 'Unknown'
+        country_name = 'RU'
 
     return country_name
 
