@@ -1,12 +1,9 @@
 import string
 import random
 from .models import LandingPage, LinksLandingPages, Link, Visit
-from .serializers import LandingPageSerializer, LinksLandingPagesSerializer, LinkSerializer, VisitSerializer
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from django import forms
 from .models import Profile, Link, LandingPage
-
-from rest_framework import generics
 
 
 class HomeView(TemplateView):
@@ -69,43 +66,3 @@ class LandingPageUpdateView(UpdateView):
     model = LandingPage
     fields = ['weight', 'allowed_countries']
     template_name_suffix = '_update_form'
-
-
-class LandingPageList(generics.ListCreateAPIView):
-    queryset = LandingPage.objects.all()
-    serializer_class = LandingPageSerializer
-
-
-class LandingPageDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = LandingPage.objects.all()
-    serializer_class = LandingPageSerializer
-
-
-class LinksLandingPagesList(generics.ListCreateAPIView):
-    queryset = LinksLandingPages.objects.all()
-    serializer_class = LinksLandingPagesSerializer
-
-
-class LinksLandingPagesDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = LinksLandingPages.objects.all()
-    serializer_class = LinksLandingPagesSerializer
-
-
-class LinkList(generics.ListCreateAPIView):
-    queryset = Link.objects.all()
-    serializer_class = LinkSerializer
-
-
-class LinkDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Link.objects.all()
-    serializer_class = LinkSerializer
-
-
-class VisitList(generics.ListCreateAPIView):
-    queryset = Visit.objects.all()
-    serializer_class = VisitSerializer
-
-
-class VisitDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Visit.objects.all()
-    serializer_class = VisitSerializer
