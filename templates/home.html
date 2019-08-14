@@ -35,6 +35,7 @@
       <tr>
         <th>Short Url</th>
         <th>Visited by</th>
+        <th>Country</th>
       </tr>
     </thead>
     <tbody>
@@ -43,6 +44,7 @@
               <tr>
                 <td>{{ link }}</td>
                 <td>{{ visit.ip_address }}</td>
+                <td>{{ visit.country }}</td>
               </tr>
             {% endfor %}
         {% endfor %}
