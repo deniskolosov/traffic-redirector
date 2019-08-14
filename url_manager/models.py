@@ -91,6 +91,9 @@ class LinksLandingPages(models.Model):
     link = models.ForeignKey(Link, related_name='links_landing_pages', on_delete=models.CASCADE)
     landing_page = models.ForeignKey(LandingPage, on_delete=models.CASCADE)
 
+    def get_absolute_url(self):
+        return reverse('home')
+
 
 class Visit(models.Model):
     ip_address = models.GenericIPAddressField()

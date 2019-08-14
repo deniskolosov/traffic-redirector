@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from url_manager.views import LinkCreateView, HomeView, TemplateView
+from url_manager.views import LinkCreateView, HomeView, TemplateView, LinksLandingPagesCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('landing2/', TemplateView.as_view(template_name='landing2.html'), name='landing_2'),
     path('landing3/', TemplateView.as_view(template_name='landing3.html'), name='landing_3'),
     path('create-link/', LinkCreateView.as_view(), name='create-link'),
+    path('create-links-landing-pages/', LinksLandingPagesCreateView.as_view(), name='create-links-landing-pages'),
     path('links/', include('url_manager.urls')),
     path('landing-pages/', include('url_manager.urls')),
 

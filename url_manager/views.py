@@ -2,7 +2,9 @@ import string
 import random
 from .models import LandingPage, LinksLandingPages, Link, Visit
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
+from django.urls import reverse_lazy
 from django import forms
+from django.shortcuts import render
 from .models import Profile, Link, LandingPage
 
 
@@ -43,7 +45,8 @@ class LinkDetailView(DetailView):
 class LinkCreateView(CreateView):
     model = Link
     template_name = 'url_manager/link-create.html'
-    fields = ['short_url_path', 'links_landing_pages']
+    fields = ['short_url_path']
+    success_url = reverse_lazy('create-links-landing-pages')
 
     def get_initial(self, *args, **kwargs):
         initial = super(LinkCreateView, self).get_initial(**kwargs)
@@ -60,6 +63,12 @@ class LinkCreateView(CreateView):
         obj.user = self.request.user.profile
         obj.save()
         return super(LinkCreateView, self).form_valid(form)
+
+
+class LinksLandingPagesCreateView(CreateView):
+    model = LinksLandingPages
+    template_name = 'url_manager/link-landing-page-create.html'
+    fields = ['link', 'landing_page']
 
 
 class LandingPageUpdateView(UpdateView):

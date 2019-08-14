@@ -3,36 +3,58 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-    <a href="{% url 'create-link' %}">Create new short link</a>
-  Your links:
-    <table>
-        {% for link, landing_pages in links_landing_pages.items %}
-        <tr>
-            <td><a href="{% url 'link-detail' link.slug %}">{{ link.short_url_path }}</a>
-                    {% for page in landing_pages %}
-                       points to  <a href="{% url 'landing-page-update' page.pk %}"> {{ page }}</a>
-                    {% endfor %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
 
-    Visits from links:
-    <table>
+{% if user.is_authenticated %}
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-4">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'create-link' %}">Create new short link</a>
+        </li>
+      </ul>
+      <hr class="d-sm-none">
+    </div>
+    <div class="col-sm-8">
+      <h5>Hi {{ user.username }}!</h5>   <p><a href="{% url 'logout' %}">logout</a></p>
+
+      <h5>Your links:</h5>
+      <p> Click the name to go to link or landing page details <p>
+        <ul class="list-group col-sm-8">
+     {% for link, landing_pages in links_landing_pages.items %}
+        <li class="list-group-item"><a href="{% url 'link-detail' link.slug %}">{{ link.short_url_path }}</a> points to
+            {% for page in landing_pages %}
+                <a href="{% url 'landing-page-update' page.pk %}"> {{ page }}</a>
+            {% endfor %}
+        </li>
+     {% endfor %}
+	   </ul>
+      <br>
+     <h3>Link Visits:</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Short Url</th>
+        <th>Visited by</th>
+      </tr>
+    </thead>
+    <tbody>
         {% for link, visits in links_visits.items %}
-            <tr>
-              {{link}} visited by
-                {% for visit in visits %}
-                    {{ visit.ip_address }}
-                {% endfor %}
-            </tr>
+            {% for visit in visits %}
+              <tr>
+                <td>{{ link }}</td>
+                <td>{{ visit.ip_address }}</td>
+              </tr>
+            {% endfor %}
         {% endfor %}
-    </table>
-  <p><a href="{% url 'logout' %}">logout</a></p>
+    </tbody>
+  </table>
+    </div>
+  </div>
+</div>
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">login</a>
 {% endif %}
+
 {% endblock %}
